@@ -67,12 +67,9 @@ app.delete("/task/:_id", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-const MONGO_URL =
-  "mongodb+srv://tripathiamit2021:tripathiamit2021@intern-api.ch3recy.mongodb.net/?retryWrites=true&w=majority";
-
 const start = async () => {
   try {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(process.env.MONGO_URL);
     app.listen(3000, () => console.log("Server started on port 3000"));
   } catch (error) {
     console.error(error);
