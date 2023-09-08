@@ -3,7 +3,7 @@
 Instructions to use the API.
 
 1. To read Existing Tasks.
-   <strong>GET /</strong>
+   <strong>send GET on  https://tasks-api-amit.onrender.com/posts</strong>
    <br>
    Response :
    ```js
@@ -27,7 +27,7 @@ Instructions to use the API.
     ````
 
 2. To create Posts,
-   <strong>send POST request on url with body</strong>
+   <strong>send POST request on https://tasks-api-amit.onrender.com/task with body</strong>
 
     ```json
     {
@@ -36,10 +36,10 @@ Instructions to use the API.
     "status": "completed"
     }
     ````
-3. To Delete use <strong>DELETE /posts/:id</strong>
+3. To Delete use <strong>DELETE https://tasks-api-amit.onrender.com/posts/:id</strong>
     <br> Response : 
     ```
     Task deleted successfully
     ```
-4. To Update use <strong>UPDATE /posts/:id</strong>
+4. To Update use <strong>UPDATE https://tasks-api-amit.onrender.com/posts/:id</strong>
     <br> Response : Updated Post
