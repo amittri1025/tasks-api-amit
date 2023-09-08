@@ -1,14 +1,13 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 //task schema
-const {Task} = require("./models/models.tasks");
+const { Task } = require("./models/models");
 
 const app = express();
 app.use(express.json());
-
-
 
 app.get("/tasks", async (req, res) => {
   try {
@@ -19,12 +18,9 @@ app.get("/tasks", async (req, res) => {
   }
 });
 
-// Create a new task
 app.post("/task", async (req, res) => {
-  const { title, description, status } = req.body;
-
   try {
-    const newTask = new Task({ title, description, status });
+    const newTask = new Task({ ...req.body });
     const savedTask = await newTask.save();
     res.status(201).json(savedTask);
   } catch (error) {
@@ -33,14 +29,14 @@ app.post("/task", async (req, res) => {
 });
 
 // Update the status of an existing task by ID
-app.put("/task/:id", async (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
+app.put("/task/:_id", async (req, res) => {
+  const { _id } = req.params;
+  const { status, title, description } = req.body;
 
   try {
     const updatedTask = await Task.findByIdAndUpdate(
-      id,
-      { status },
+      _id,
+      { status, title, description }, // Combine the fields into one object
       { new: true }
     );
     if (!updatedTask) {
@@ -53,41 +49,35 @@ app.put("/task/:id", async (req, res) => {
   }
 });
 
+app.delete("/task/:_id", async (req, res) => {
+  const { _id } = req.params;
 
+  try {
+    const deletedTask = await Task.findByIdAndRemove(_id);
 
+    if (!deletedTask) {
+      res.status(404).json({ error: "Task not found" });
+    } else {
+      res.json({ message: "Task deleted successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
+const PORT = process.env.PORT || 3000;
 
+const MONGO_URL =
+  "mongodb+srv://tripathiamit2021:tripathiamit2021@intern-api.ch3recy.mongodb.net/?retryWrites=true&w=majority";
 
+const start = async () => {
+  try {
+    await mongoose.connect(MONGO_URL);
+    app.listen(3000, () => console.log("Server started on port 3000"));
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
 
-
-
-
-
-
-
-const PORT = process.env.PORT || 300;
-
-console.log(process.env.MONGO_URL);
-
-// mongoose.connect(process.env.MONGO_Url, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then(() => {
-//     console.log(`Connected to MongoDB`);
-//     app.listen(PORT, () => {
-//       console.log(`Server Running on Port: http://localhost:${PORT}`);
-//     });
-//   })
-//   .catch((error) => {
-//     console.log(`${error} did not connect`);
-//   });
-
-// const start = async () => {
-//   try {
-//     await mongoose.connect(
-//       process.env.CONNECTION_URL
-//     );
-//     app.listen(3000, () => console.log("Server started on port 3000"));
-//   } catch (error) {
-//     console.error(error);
-//     process.exit(1);
-//   }
-// };
+start();
