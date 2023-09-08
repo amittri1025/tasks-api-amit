@@ -42,7 +42,7 @@ Instructions to use the API.
             ...
    ]
 
-    ````
+    ```
 
 2. To create Posts,<br>
    `send POST request on https://tasks-api-amit.onrender.com/task with body`
@@ -53,11 +53,11 @@ Instructions to use the API.
         "description": "Visit official MUI docs, and learn the important stuff to build things using MUI for React",
         "status": "completed"
     }
-    ````
-3. To Delete use <br> `DELETE https://tasks-api-amit.onrender.com/posts/:id`
+    ```
+3. To Delete use <br> `DELETE https://tasks-api-amit.onrender.com/posts/<given-id>`
     <br> Response : 
     ```
     Task deleted successfully
     ```
-4. To Update use <br>`UPDATE https://tasks-api-amit.onrender.com/posts/:id`
+4. To Update use <br>`UPDATE https://tasks-api-amit.onrender.com/posts/<given-id>`
     <br> Response : Updated Post
